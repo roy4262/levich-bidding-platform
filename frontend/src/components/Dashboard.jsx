@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import ItemCard from './ItemCard';
-import { useSocket } from '../hooks/useSocket';
+import React, { useState, useEffect } from "react";
+import ItemCard from "./ItemCard";
+import { useSocket } from "../hooks/useSocket";
 
 const Dashboard = () => {
   const [items, setItems] = useState([]);
-  const { isConnected, socketId, serverTimeOffset, sendMessage, registerListener } = useSocket();
+  const {
+    isConnected,
+    socketId,
+    serverTimeOffset,
+    sendMessage,
+    registerListener,
+  } = useSocket();
   const [error, setError] = useState(null);
 
   useEffect(() => {
     // Initial fetch of items via REST API
     fetch(`${import.meta.env.VITE_API_URL}/items`)
-      .then(res => res.json())
-      .then(data => setItems(data))
-      .catch(err => console.error('Error fetching items:', err));
+      .then((res) => res.json())
+      .then((data) => setItems(data))
+      .catch((err) => console.error("Error fetching items:", err));
 
     // Register socket listeners
-    const unregisterUpdate = registerListener('UPDATE_BID', (updatedItem) => {
-      setItems(prevItems => prevItems.map(item => 
-        item.id === updatedItem.id ? updatedItem : item
-      ));
+    const unregisterUpdate = registerListener("UPDATE_BID", (updatedItem) => {
+      setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === updatedItem.id ? updatedItem : item,
+        ),
+      );
     });
 
-    const unregisterRejected = registerListener('BID_REJECTED', (data) => {
+    const unregisterRejected = registerListener("BID_REJECTED", (data) => {
       setError(`Bid rejected for item ${data.itemId}: ${data.error}`);
       setTimeout(() => setError(null), 3000);
     });
@@ -33,7 +41,7 @@ const Dashboard = () => {
   }, [registerListener]);
 
   const handleBid = (itemId, bidAmount) => {
-    sendMessage('BID_PLACED', { itemId, bidAmount });
+    sendMessage("BID_PLACED", { itemId, bidAmount });
   };
 
   return (
@@ -47,12 +55,14 @@ const Dashboard = () => {
             <span className="brand-name">LEVICH</span>
           </div>
           <div className="nav-actions">
-            <div className={`connection-status ${isConnected ? 'online' : 'offline'}`}>
+            <div
+              className={`connection-status ${isConnected ? "online" : "offline"}`}
+            >
               <div className="status-indicator">
                 <div className="status-ring"></div>
                 <div className="status-core"></div>
               </div>
-              <span>{isConnected ? 'LIVE' : 'OFFLINE'}</span>
+              <span>{isConnected ? "LIVE" : "OFFLINE"}</span>
             </div>
           </div>
         </div>
@@ -60,18 +70,20 @@ const Dashboard = () => {
 
       <header className="hero-section">
         <div className="hero-content">
-
           <h1 className="hero-title">
-            THE NEW <span className="text-gradient">STANDARD</span>
+            TRUST THE <span className="text-gradient">CLOCK</span>
             <br />
-            OF BIDDING
+            TRUST THE BID
           </h1>
+
           <div className="hero-stats">
             <div className="stat-item">
               <span className="stat-value">{items.length}</span>
               <span className="stat-label">ACTIVE LOTS</span>
             </div>
+
             <div className="stat-divider"></div>
+
             <div className="stat-item">
               <span className="stat-value">0.1ms</span>
               <span className="stat-label">LATENCY</span>
@@ -89,10 +101,10 @@ const Dashboard = () => {
       <main className="container">
         <div className="grid-container">
           <div className="item-grid">
-            {items.map(item => (
-              <ItemCard 
-                key={item.id} 
-                item={item} 
+            {items.map((item) => (
+              <ItemCard
+                key={item.id}
+                item={item}
                 serverTimeOffset={serverTimeOffset}
                 onBid={handleBid}
                 socketId={socketId}
@@ -155,7 +167,7 @@ const Dashboard = () => {
         }
 
         .brand-name {
-          font-family: 'Space Grotesk', sans-serif;
+          font-family: "Space Grotesk", sans-serif;
           font-size: 1.25rem;
           font-weight: 700;
           letter-spacing: 0.3em;
@@ -182,7 +194,7 @@ const Dashboard = () => {
         }
 
         .id-value {
-          font-family: 'Space Grotesk', monospace;
+          font-family: "Space Grotesk", monospace;
           font-size: 14px;
           color: #fff;
           font-weight: 600;
@@ -226,13 +238,25 @@ const Dashboard = () => {
           opacity: 0.3;
         }
 
-        .online { color: #22c55e; }
-        .online .status-ring { animation: pulse-out 2s infinite; }
-        .offline { color: #f43f5e; }
+        .online {
+          color: #22c55e;
+        }
+        .online .status-ring {
+          animation: pulse-out 2s infinite;
+        }
+        .offline {
+          color: #f43f5e;
+        }
 
         @keyframes pulse-out {
-          0% { transform: scale(0.8); opacity: 0.5; }
-          100% { transform: scale(2); opacity: 0; }
+          0% {
+            transform: scale(0.8);
+            opacity: 0.5;
+          }
+          100% {
+            transform: scale(2);
+            opacity: 0;
+          }
         }
 
         .hero-section {
@@ -241,8 +265,6 @@ const Dashboard = () => {
           text-align: center;
           position: relative;
         }
-
-    
 
         .hero-title {
           font-size: 6rem;
@@ -265,7 +287,7 @@ const Dashboard = () => {
         }
 
         .stat-value {
-          font-family: 'Space Grotesk', sans-serif;
+          font-family: "Space Grotesk", sans-serif;
           font-size: 2rem;
           font-weight: 700;
           color: #fff;
@@ -323,23 +345,49 @@ const Dashboard = () => {
         }
 
         @keyframes slideUp {
-          from { transform: translateY(100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+          from {
+            transform: translateY(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
 
         @media (max-width: 1024px) {
-          .hero-title { font-size: 4rem; }
-          .item-grid { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); }
-          .grid-container { padding: 40px; }
+          .hero-title {
+            font-size: 4rem;
+          }
+          .item-grid {
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+          }
+          .grid-container {
+            padding: 40px;
+          }
         }
 
         @media (max-width: 768px) {
-          .hero-title { font-size: 3rem; }
-          .hero-stats { gap: 24px; }
-          .nav-content { padding: 0 20px; }
-          .container { padding: 0 20px; }
-          .grid-container { padding: 20px; border-radius: 20px; }
-          .item-grid { grid-template-columns: 1fr; gap: 32px; }
+          .hero-title {
+            font-size: 3rem;
+          }
+          .hero-stats {
+            gap: 24px;
+          }
+          .nav-content {
+            padding: 0 20px;
+          }
+          .container {
+            padding: 0 20px;
+          }
+          .grid-container {
+            padding: 20px;
+            border-radius: 20px;
+          }
+          .item-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
         }
       `}</style>
     </div>
