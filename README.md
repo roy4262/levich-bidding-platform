@@ -1,4 +1,4 @@
-# Levich Real-Time IPL Bidding Platform
+# Levich Real-Time  Bidding Platform
 
 A high-performance, production-quality real-time auction platform designed for the fast-paced environment of IPL player bidding. This system is engineered for extreme precision, concurrency safety, and sub-millisecond latency.
 
