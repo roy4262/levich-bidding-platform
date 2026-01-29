@@ -1,4 +1,4 @@
-# Levich Real-Time  Bidding Platform
+# Levich Real-Time Bidding Platform
 
 A high-performance, production-quality real-time auction platform designed for the fast-paced environment of IPL player bidding. This system is engineered for extreme precision, concurrency safety, and sub-millisecond latency.
 
@@ -30,12 +30,14 @@ The architecture follows a strictly decoupled approach, separating the transport
 ```
 
 ### Technical Stack
+
 - **Frontend**: React 19, Vite, Socket.io-Client, CSS-in-JS (Styled-jsx), MessagePack.
 - **Backend**: Node.js (ESM), Express 5, Socket.io, MessagePackr.
 
 ## 🔒 Handling High Concurrency
 
 To ensure that only one user can successfully win a bid at the exact same millisecond, the system uses a **Per-Item Lock Manager**:
+
 1. When a bid arrives, the `AuctionService` attempts to acquire a mutex for that specific `itemId`.
 2. The first request to arrive wins the lock; subsequent requests for the same item are rejected immediately with a 409-style conflict error.
 3. This guarantees atomic state updates and prevents inconsistent pricing.
@@ -43,6 +45,7 @@ To ensure that only one user can successfully win a bid at the exact same millis
 ## 📦 Binary Socket Optimization
 
 Unlike standard JSON-based sockets, this platform utilizes **MessagePack** for binary serialization:
+
 - **Efficiency**: Significantly smaller packets mean faster transmission over unstable networks.
 - **Serialization Speed**: Faster than `JSON.stringify` and `JSON.parse` for complex objects.
 - **Security**: Provides a basic layer of data obfuscation at the transport level.
@@ -50,12 +53,18 @@ Unlike standard JSON-based sockets, this platform utilizes **MessagePack** for b
 ## 🛠 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - NPM
 
 ### Installation
 
 1. **Clone the repository**
+
+```bash
+git clone https://github.com/roy4262/levich-bidding-platform
+```
+
 2. **Setup Backend**:
    ```bash
    cd backend
@@ -77,4 +86,5 @@ Unlike standard JSON-based sockets, this platform utilizes **MessagePack** for b
 - **Backend**: Can be deployed as a standalone Node.js service or dockerized.
 
 ---
-*Developed as a high-performance assessment for the Levich Bidding Platform.*
+
+_Developed as a high-performance assessment for the Levich Bidding Platform._
