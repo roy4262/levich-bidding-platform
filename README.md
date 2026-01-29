@@ -69,14 +69,14 @@ git clone https://github.com/roy4262/levich-bidding-platform
    ```bash
    cd backend
    npm install
-   cp .env.example .env
+   cp  .env
    npm start # Default port: 3001
    ```
 3. **Setup Frontend**:
    ```bash
    cd frontend
    npm install
-   cp .env.example .env
+   cp .env
    npm run dev
    ```
 
