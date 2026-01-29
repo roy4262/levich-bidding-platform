@@ -60,7 +60,7 @@ const Dashboard = () => {
 
       <header className="hero-section">
         <div className="hero-content">
-          <div className="hero-badge">PHASE 01: GENESIS</div>
+
           <h1 className="hero-title">
             THE NEW <span className="text-gradient">STANDARD</span>
             <br />
@@ -242,18 +242,7 @@ const Dashboard = () => {
           position: relative;
         }
 
-        .hero-badge {
-          display: inline-block;
-          padding: 6px 16px;
-          background: rgba(99, 102, 241, 0.1);
-          border: 1px solid rgba(99, 102, 241, 0.2);
-          border-radius: 100px;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.2em;
-          color: #818cf8;
-          margin-bottom: 32px;
-        }
+    
 
         .hero-title {
           font-size: 6rem;
